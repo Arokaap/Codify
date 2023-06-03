@@ -1,0 +1,42 @@
+import { Routes, Route, Navigate } from 'react-router-dom'
+import { Navbar } from '@/widgets/layout'
+import routes from '@/routes'
+import { Profile, SignIn, SignUp } from './pages'
+import { useEffect, useState } from 'react'
+
+function App () {
+  const [user, setUser] = useState(null)
+
+  const handleUser = (dataUser) => setUser(dataUser)
+
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedUser')
+    if (loggedUserJSON) {
+      const userLogged = JSON.parse(loggedUserJSON)
+      setUser(userLogged)
+    }
+  }, [])
+
+  return (
+    <>
+      <div className='container absolute left-2/4 z-10 mx-auto -translate-x-2/4 p-4'>
+        <Navbar routes={routes} user={user} handleUser={handleUser} />
+      </div>
+      <Routes>
+
+        <Route path='/registrarme' element={<SignUp handleUser={handleUser} />} />
+        <Route path='/iniciar-sesion' element={<SignIn handleUser={handleUser} />} />
+        <Route path='/profile' element={<Profile user={user} />} />
+        {routes.map(
+          ({ path, element }, key) =>
+            element && <Route key={key} exact path={path} element={element} />
+        )}
+
+        <Route path='*' element={<Navigate to='/home' replace />} />
+
+      </Routes>
+    </>
+  )
+}
+
+export default App
