@@ -10,8 +10,6 @@ import {
 import {
   UserCircleIcon,
   ChevronDownIcon,
-  Cog6ToothIcon,
-  InboxArrowDownIcon,
   LifebuoyIcon,
   PowerIcon
 } from '@heroicons/react/24/outline'
@@ -38,19 +36,7 @@ const AvatarSkin = ({ handleUser, hidden, user }) => {
       }
     },
     {
-      label: 'Edit Profile',
-      icon: Cog6ToothIcon,
-      onClick: closeMenu
-
-    },
-    {
-      label: 'Inbox',
-      icon: InboxArrowDownIcon,
-      onClick: closeMenu
-
-    },
-    {
-      label: 'Help',
+      label: 'Mis cursos',
       icon: LifebuoyIcon,
       onClick: closeMenu
 
@@ -80,7 +66,7 @@ const AvatarSkin = ({ handleUser, hidden, user }) => {
                 className='flex items-center gap-1 rounded-full py-0.5 pr-0 pl-0.5 lg:ml-auto'
               >
                 <Avatar
-                  src='/img/team-2.jpg'
+                  src='/img/teacher-1.jpeg'
                   alt='Profile picture'
                   variant='circular'
                   className='h-full w-full shadow-xl'

@@ -12,7 +12,7 @@ import {
 import { UsersIcon } from '@heroicons/react/24/solid'
 import { PageTitle, Footer } from '@/widgets/layout'
 import { FeatureCard, TeamCard } from '@/widgets/cards'
-import { featuresData, teamData, contactData } from '@/data'
+import { featuresData, teamData } from '@/data'
 
 export function Home () {
   return (
@@ -98,14 +98,12 @@ export function Home () {
           </div>
         </div>
       </section>
-      <section className='px-4 pt-20 pb-48'>
+      <section className='px-4 pt-20 pb-20'>
         <div className='container mx-auto'>
-          <PageTitle heading='Here are our heroes'>
-            According to the National Oceanic and Atmospheric Administration,
-            Ted, Scambos, NSIDClead scentist, puts the potentially record
-            maximum.
+          <PageTitle heading='Conoce a nuestros profesores'>
+            Son los héroes detrás de las escenas, transformando el aprendizaje online en una experiencia personal, inspiradora y enriquecedora. Con ellos, cada curso es una aventura llena de descubrimiento y potencial ilimitado.
           </PageTitle>
-          <div className='mt-24 grid grid-cols-1 gap-12 gap-x-24 md:grid-cols-2 xl:grid-cols-4'>
+          <div className='mt-24 grid grid-cols-1 gap-12 gap-x-24 md:grid-cols-2 xl:grid-cols-2'>
             {teamData.map(({ img, name, position, socials }) => (
               <TeamCard
                 key={name}
@@ -128,44 +126,17 @@ export function Home () {
       </section>
       <section className='relative bg-blue-gray-50/50 py-24 px-4'>
         <div className='container mx-auto'>
-          <PageTitle heading='Build something'>
-            Put the potentially record low maximum sea ice extent tihs year down
-            to low ice. According to the National Oceanic and Atmospheric
-            Administration, Ted, Scambos.
-          </PageTitle>
-          <div className='mx-auto mt-20 mb-48 grid max-w-5xl grid-cols-1 gap-16 md:grid-cols-2 lg:grid-cols-3'>
-            {contactData.map(({ title, icon, description }) => (
-              <Card
-                key={title}
-                color='transparent'
-                shadow={false}
-                className='text-center text-blue-gray-900'
-              >
-                <div className='mx-auto mb-6 grid h-14 w-14 place-items-center rounded-full bg-white shadow-lg shadow-gray-500/20'>
-                  {React.createElement(icon, {
-                    className: 'w-5 h-5'
-                  })}
-                </div>
-                <Typography variant='h5' color='blue-gray' className='mb-2'>
-                  {title}
-                </Typography>
-                <Typography className='font-normal text-blue-gray-500'>
-                  {description}
-                </Typography>
-              </Card>
-            ))}
-          </div>
-          <PageTitle heading='Want to work with us?'>
-            Complete this form and we will get back to you in 24 hours.
+          <PageTitle heading='¿Tienes alguna duda?'>
+            ¡Rellena el formulario y te responderemos en breve!
           </PageTitle>
           <form className='mx-auto mt-12 max-w-3xl text-center'>
             <div className='mb-8 flex gap-8'>
-              <Input variant='standard' size='lg' label='Full Name' />
-              <Input variant='standard' size='lg' label='Email Address' />
+              <Input variant='standard' size='lg' label='Nombre Completo' />
+              <Input variant='standard' size='lg' label='Correo Electrónico' />
             </div>
-            <Textarea variant='standard' size='lg' label='Message' rows={8} />
+            <Textarea variant='standard' size='lg' label='Mensaje' rows={8} />
             <Button variant='gradient' size='lg' className='mt-8'>
-              Send Message
+              Contactar
             </Button>
           </form>
         </div>
