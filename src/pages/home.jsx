@@ -13,12 +13,13 @@ import { UsersIcon } from '@heroicons/react/24/solid'
 import { PageTitle, Footer } from '@/widgets/layout'
 import { FeatureCard, TeamCard } from '@/widgets/cards'
 import { featuresData, teamData } from '@/data'
+import { Link } from 'react-router-dom'
 
 export function Home () {
   return (
     <>
       <div className='relative flex h-screen content-center items-center justify-center pt-16 pb-32'>
-        <div className="absolute top-0 h-full w-full bg-[url('https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1267&q=80')] bg-cover bg-center" />
+        <div className="absolute top-0 h-full w-full bg-[url('/img/edificio-background.png')] bg-cover bg-center" />
         <div className='absolute top-0 h-full w-full bg-black/75 bg-cover bg-center' />
         <div className='max-w-8xl container relative mx-auto'>
           <div className='flex flex-wrap items-center'>
@@ -70,14 +71,18 @@ export function Home () {
                 <br />
                 Comprometidos con la excelencia, nuestros educadores brindan un enfoque personalizado y adaptado a tus necesidades, asegurando que desarrolles habilidades y conocimientos esenciales en tu camino hacia el éxito académico y profesional.
               </Typography>
-              <Button variant='outlined'>Explorar cursos</Button>
+              <Link to='/cursos'>
+                <Button variant='outlined'>
+                  Explorar cursos
+                </Button>
+              </Link>
             </div>
             <div className='mx-auto mt-24 flex w-full justify-center px-4 md:w-4/12 lg:mt-0'>
               <Card className='shadow-lg shadow-gray-500/10'>
                 <CardHeader className='relative h-56'>
                   <img
                     alt='Card Image'
-                    src='/img/teamwork.jpeg'
+                    src='/img/team.png'
                     className='h-full w-full'
                   />
                 </CardHeader>

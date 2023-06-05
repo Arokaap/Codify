@@ -69,8 +69,9 @@ export function Navbar ({ brandName, routes, action, user, handleUser }) {
       <div className='container mx-auto flex items-center justify-between text-white'>
         {/* LOGO CON RUTA AL INICIO */}
         <Link to='/'>
-          <Typography className='mr-20 ml-10 cursor-pointer py-1.5 font-bold'>
-            {brandName}
+          <Typography className='mr-20 ml-10 cursor-pointer font-bold'>
+            <img src='/img/logo.png' alt={brandName} className='mr-10 ml-10 h-13 cursor-pointer pt-0 mt-0 w-20' />
+
           </Typography>
         </Link>
         {/* Diferentes elecciones centrales en el menu de navegación */}
