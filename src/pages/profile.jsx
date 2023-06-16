@@ -117,7 +117,7 @@ export function Profile ({ user }) {
                     <Typography className='mb-8 font-normal text-blue-gray-500'>
                       {user ? (user.userLocation ?? 'Soy un apasionado desarrollador web especializado en la creación de aplicaciones y soluciones innovadoras utilizando tecnologías de vanguardia como React, JavaScript y Node. Me encanta sumergirme en estos lenguajes y frameworks para estar siempre al día con las últimas tendencias y prácticas en el ámbito del desarrollo web. Mi enfoque se centra en la eficiencia, la escalabilidad y la experiencia del usuario, y siempre estoy buscando nuevas oportunidades para aprender y crecer como profesional en este campo dinámico y en constante evolución.') : 'Soy un apasionado desarrollador web especializado en la creación de aplicaciones y soluciones innovadoras utilizando tecnologías de vanguardia como React, JavaScript y Node. Me encanta sumergirme en estos lenguajes y frameworks para estar siempre al día con las últimas tendencias y prácticas en el ámbito del desarrollo web. Mi enfoque se centra en la eficiencia, la escalabilidad y la experiencia del usuario, y siempre estoy buscando nuevas oportunidades para aprender y crecer como profesional en este campo dinámico y en constante evolución.'}
                     </Typography>
-                    <Button variant='text'>Show more</Button>
+                    <Button variant='text'>Seguir Leyendo...</Button>
                   </div>
                 </div>
               </div>

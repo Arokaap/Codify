@@ -3,6 +3,10 @@ import { Navbar } from '@/widgets/layout'
 import routes from '@/routes'
 import { Profile, SignIn, SignUp } from './pages'
 import { useEffect, useState } from 'react'
+import MyCourses from './pages/my-courses'
+import DataCourse from './pages/data-course'
+import CreateCourse from './pages/create-course'
+import EditCourse from './pages/edit-course'
 
 function App () {
   const [user, setUser] = useState(null)
@@ -27,6 +31,11 @@ function App () {
         <Route path='/registrarme' element={<SignUp handleUser={handleUser} />} />
         <Route path='/iniciar-sesion' element={<SignIn handleUser={handleUser} />} />
         <Route path='/profile' element={<Profile user={user} />} />
+        <Route path='/mis-cursos' element={<MyCourses />} />
+        <Route path='/curso/:id' element={<DataCourse />} />
+        <Route path='/crear-curso' element={<CreateCourse />} />
+        <Route path='/editar-curso/:id' element={<EditCourse />} />
+
         {routes.map(
           ({ path, element }, key) =>
             element && <Route key={key} exact path={path} element={element} />

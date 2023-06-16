@@ -38,7 +38,10 @@ const AvatarSkin = ({ handleUser, hidden, user }) => {
     {
       label: 'Mis cursos',
       icon: LifebuoyIcon,
-      onClick: closeMenu
+      onClick: () => {
+        navigate('/mis-cursos')
+        closeMenu()
+      }
 
     },
     {
