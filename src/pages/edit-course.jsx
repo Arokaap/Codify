@@ -65,11 +65,10 @@ export function EditCourse () {
 
         if (updateCourseResponse.status === 200) {
           if (file) {
-            await axios.post(`https://codifyapi.herokuapp.com/upload/uploadImageCourse/${updateCourseResponse.data.id}`, formData)
+            await axios.post(`http://localhost:3000/upload/uploadImageCourse/${updateCourseResponse.data.id}`, formData)
           }
-
-          navigate(`/curso/${id}`)
         }
+        navigate(`/curso/${id}`)
       } catch (error) {
         console.error('Error updating course:', error)
       } finally {
@@ -127,7 +126,7 @@ export function EditCourse () {
   return (
     <>
       <section className='relative block h-[50vh]'>
-        <div className="bg-profile-background absolute top-0 h-full w-full bg-[url('/img/background-1.jpg')] bg-cover bg-center" />
+        <div className="bg-profile-background absolute top-0 h-full w-full bg-[url('https://res.cloudinary.com/dpew4mitl/image/upload/v1687014229/background-1_ecfeyg.jpg')] bg-cover bg-center" />
         <div className='absolute top-0 h-full w-full bg-black/75 bg-cover bg-center' />
       </section>
       <section className='relative bg-blue-gray-50/50 py-16 px-4'>

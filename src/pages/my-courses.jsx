@@ -87,9 +87,7 @@ export function MyCourses () {
               <div className='my-15 text-center'>
                 <div className='w-full flex justify-end mt-10'>
                   {loggedInUserId && (
-                    <Link to='/crear-curso'>
-                      <Button variant='gradient'>Crear Curso</Button>
-                    </Link>
+                    <Button disabled variant='gradient'>Crear Curso</Button>
                   )}
                 </div>
                 <div className='my-8 text-center flex justify-center gap-7 flex-wrap'>
