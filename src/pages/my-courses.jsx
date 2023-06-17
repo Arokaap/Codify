@@ -25,32 +25,6 @@ export function MyCourses () {
   const [data, setData] = useState([])
   const [alertOpen, setAlertOpen] = useState(false)
 
-  const handleBuy = async (itemId) => {
-    try {
-    // Usa el token del usuario almacenado en el localStorage
-      const userLogged = JSON.parse(window.localStorage.getItem('loggedUser'))
-      const token = userLogged.token
-
-      const response = await axios.put(`http://localhost:3000/api/users/${userLogged.userId}/enroll/${itemId}`, {}, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
-        }
-      })
-      if (response.data.message) {
-        // Recarga los datos del curso después de una inscripción exitosa
-        const result = await axios.get('http://localhost:3000/api/courses')
-        setData(result.data)
-      }
-    } catch (error) {
-    }
-    // Muestra la alerta y la oculta después de 5 segundos
-    setAlertOpen(true)
-    setTimeout(() => {
-      setAlertOpen(false)
-    }, 5000)
-  }
-
   const handleDelete = async (itemId) => {
     try {
       const userLogged = JSON.parse(window.localStorage.getItem('loggedUser'))
@@ -177,7 +151,6 @@ export function MyCourses () {
                                       <Button
                                         size='lg'
                                         fullWidth
-                                        onClick={() => handleBuy(item.id)}
                                         color={isCreator ? 'blue' : (isEnrolled ? 'blue' : 'red')}
                                       >
                                         {!isCreator ? (isEnrolled ? 'Entrar al curso' : 'ILEGAL') : 'Entrar al curso'}

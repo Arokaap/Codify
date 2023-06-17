@@ -6,10 +6,11 @@ import {
   Select,
   Option
 } from '@material-tailwind/react'
-
+import { BeatLoader } from 'react-spinners'
 import { Footer } from '@/widgets/layout'
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 export function CreateCourse () {
   const [title, setTitle] = useState('')
@@ -20,6 +21,8 @@ export function CreateCourse () {
   const [categories, setCategories] = useState([])
   const userLogged = JSON.parse(window.localStorage.getItem('loggedUser'))
   const loggedInUserId = userLogged ? userLogged.userId : null
+  const navigate = useNavigate()
+  const [isLoading, setIsLoading] = useState(false)
 
   const validateForm = () => {
     const formErrors = {}
@@ -39,7 +42,8 @@ export function CreateCourse () {
     event.preventDefault()
 
     if (validateForm()) {
-    // Create new FormData instance
+      setIsLoading(true)
+      // Create new FormData instance
       const formData = new FormData()
 
       // Append the file to the formData instance
@@ -64,12 +68,16 @@ export function CreateCourse () {
         if (createCourseResponse.status === 200) {
           const response = await axios.post(`http://localhost:3000/upload/uploadImageCourse/${createCourseResponse.data.id}`, formData)
 
+          navigate(`/curso/${createCourseResponse.data.id}`)
+
           if (response.status === 200) {
             console.log('Create Course')
           }
         }
       } catch (error) {
         console.error('Error creating course:', error)
+      } finally {
+        setIsLoading(false)
       }
     }
   }
@@ -149,8 +157,8 @@ export function CreateCourse () {
                       <input type='file' className='mt-2' onChange={e => setFile(e.target.files[0])} />
                       {errors.file && <p className='text-red-500'>{errors.file}</p>}
                     </div>
-                    <Button className='mt-6' fullWidth type='submit'>
-                      Crear Curso
+                    <Button className='mt-6' fullWidth type='submit' disabled={isLoading}>
+                      {isLoading ? <BeatLoader size={10} color='#123abc' loading={isLoading} /> : 'Crear Curso'}
                     </Button>
                   </form>
                 </Card>

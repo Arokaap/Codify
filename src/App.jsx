@@ -7,6 +7,8 @@ import MyCourses from './pages/my-courses'
 import DataCourse from './pages/data-course'
 import CreateCourse from './pages/create-course'
 import EditCourse from './pages/edit-course'
+import CreateLesson from './pages/create-lesson'
+import EditLesson from './pages/edit-lesson'
 
 function App () {
   const [user, setUser] = useState(null)
@@ -35,6 +37,8 @@ function App () {
         <Route path='/curso/:id' element={<DataCourse />} />
         <Route path='/crear-curso' element={<CreateCourse />} />
         <Route path='/editar-curso/:id' element={<EditCourse />} />
+        <Route path='/crear-leccion/:id' element={<CreateLesson />} />
+        <Route path='/editar-leccion/:idCourse/:idLesson' element={<EditLesson />} />
 
         {routes.map(
           ({ path, element }, key) =>

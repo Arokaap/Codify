@@ -11,7 +11,7 @@ import {
 import { Footer } from '@/widgets/layout'
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
 export function DataCourse () {
   // const myImage = new CloudinaryImage('sample', { cloudName: 'dpew4mitl' }).resize(fill().width(100).height(150))
@@ -34,6 +34,22 @@ export function DataCourse () {
   const fetchLesson = async (lessonId) => {
     const result = await axios.get(`http://localhost:3000/api/lessons/${lessonId}`)
     setLessons(oldLessons => [...oldLessons, result.data])
+  }
+
+  const handleDeleteLesson = async (lessonId) => {
+    try {
+      await axios.delete(`http://localhost:3000/api/lessons/${id}/delete/${lessonId}`, {
+        headers: {
+          Authorization: `Bearer ${userLogged.token}`
+        }
+      })
+
+      // Una vez que la lección ha sido eliminada con éxito,
+      // necesitas eliminarla también del estado de la aplicación.
+      setLessons(oldLessons => oldLessons.filter(lesson => lesson.id !== lessonId))
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   useEffect(() => {
@@ -65,16 +81,21 @@ export function DataCourse () {
           <div className='relative mb-6 -mt-64 flex w-full min-w-0 flex-col break-words rounded-3xl bg-white shadow-xl shadow-gray-500/5'>
 
             <div className='container mx-auto'>
-              <div className='mt-32 grid grid-cols-2 gap-4 items-start'>
+              <div className='mt-32 grid md:grid-cols-2 grid-cols-1 gap-4 items-start'>
 
                 {/* INFORMACION DEL CURSO */}
-                <div className='ml-5 mx-auto -mt-8 w-full px-4 mb-10 sticky top-8'>
+                <div className='ml-5 mx-auto -mt-8 w-90 px-4 mb-10 md:sticky top-8'>
                   <figure className='relative h-full w-full'>
                     <img
-                      className='h-full w-full rounded-xl'
                       src={`${data.image}`}
                       alt='course image'
+                      style={{
+                        objectFit: 'cover', // Puede ser 'contain' para mantener el aspecto
+                        height: '100%', // Ajusta como necesites
+                        width: '100%' // Ajusta como necesites
+                      }}
                     />
+
                   </figure>
                   <Typography variant='h4' color='blue-gray'>
                     <br />
@@ -113,37 +134,59 @@ export function DataCourse () {
 
                 {/* LECCIONES DEL CURSO */}
                 <div className='mx-auto px-4 overflow-auto mb-5'>
-                  {lessons.map((lesson, index) => (
-                    <div key={index} className='mb-4'>
-                      <Card className='flex-row w-full max-w-[35rem]'>
-                        <CardHeader shadow={false} floated={false} className='w-2/5 shrink-0 m-0 rounded-r-none'>
-                          <img
-                            src={`/img/${lesson.image}`}
-                            alt='image'
-                            className='w-full h-full object-cover'
-                          />
-                        </CardHeader>
-                        <CardBody>
-                          {lesson.title &&
-                            <Typography variant='h4' color='blue-gray' className='mb-2'>
-                              {lesson.title}
-                            </Typography>}
-                          <Button onClick={() => handleOpen(index)} variant='gradient'>
-                            Ver lección
-                          </Button>
-                          <Dialog open={openLessonIndex === index} handler={handleClose}>
-                            <video className='h-full w-full rounded-lg' controls>
-                              <source src={`${lesson.url}`} type='video/mp4' />
-                              Your browser does not support the video tag.
-                            </video>
-                          </Dialog>
-                        </CardBody>
-                      </Card>
-                    </div>
-                  ))}
+                  {lessons.sort((a, b) => new Date(a.creationDate) - new Date(b.creationDate))
+                    .map((lesson, index) => (
+                      <div key={index} className='mb-8'>
+                        <Card className='flex-row w-full max-w-[35rem] relative'>
+                          {loggedInUserId === data.creator && (
+                            <div className='absolute top-0 right-0 mt-2 mr-2'>
+
+                              <Link to={`/editar-leccion/${id}/${lesson.id}`}>
+                                <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' strokeWidth={1.5} stroke='currentColor' className='w-6 h-6 cursor-pointer'>
+                                  <path strokeLinecap='round' strokeLinejoin='round' d='M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10' />
+                                </svg>
+                              </Link>
+
+                            </div>
+                          )}
+                          <CardHeader shadow={false} floated={false} className='w-2/5 shrink-0 m-0 rounded-r-none'>
+                            <img
+                              src={`${lesson.image}`}
+                              alt='image'
+                              className='w-full h-full object-cover'
+                            />
+                          </CardHeader>
+                          <CardBody>
+                            {lesson.title &&
+                              <Typography variant='h4' color='blue-gray' className='mb-2'>
+                                {lesson.title}
+                              </Typography>}
+                            <Button onClick={() => handleOpen(index)} variant='gradient'>
+                              Ver lección
+                            </Button>
+                            {loggedInUserId === data.creator && (
+                              <div className='absolute bottom-0 right-0 mb-2 mr-2'>
+                                <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' strokeWidth={1.5} stroke='currentColor' className='w-6 h-6 cursor-pointer' onClick={() => handleDeleteLesson(lesson.id)}>
+                                  <path strokeLinecap='round' strokeLinejoin='round' d='M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0' />
+                                </svg>
+                              </div>
+                            )}
+                            <Dialog open={openLessonIndex === index} handler={handleClose}>
+                              <video className='h-full w-full rounded-lg' controls>
+                                <source src={`${lesson.url}`} type='video/mp4' />
+                                Your browser does not support the video tag.
+                              </video>
+                            </Dialog>
+                          </CardBody>
+                        </Card>
+
+                      </div>
+                    ))}
                   <div className='w-full flex justify-end mt-10'>
                     {loggedInUserId === data.creator && (
-                      <Button variant='gradient'>Añadir Lección</Button>
+                      <Link to={`/crear-leccion/${id}`} className='inline-block'>
+                        <Button variant='gradient'>Añadir Lección</Button>
+                      </Link>
                     )}
                   </div>
                 </div>
