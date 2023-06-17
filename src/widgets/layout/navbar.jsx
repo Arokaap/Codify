@@ -90,7 +90,7 @@ export function Navbar ({ brandName, routes, action, user, handleUser }) {
               })}
             </div>
             )
-          : (<AvatarSkin handleUser={handleUser} hidden />)}
+          : (<AvatarSkin handleUser={handleUser} user={user} hidden />)}
         <IconButton
           variant='text'
           size='sm'

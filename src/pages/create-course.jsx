@@ -154,7 +154,10 @@ export function CreateCourse () {
                           </Option>
                         ))}
                       </Select>
-                      <input type='file' className='mt-2' onChange={e => setFile(e.target.files[0])} />
+                      <fieldset>
+                        <legend>Imagen del Curso:</legend>
+                        <input type='file' className='mt-2' onChange={e => setFile(e.target.files[0])} />
+                      </fieldset>
                       {errors.file && <p className='text-red-500'>{errors.file}</p>}
                     </div>
                     <Button className='mt-6' fullWidth type='submit' disabled={isLoading}>

@@ -9,6 +9,7 @@ import CreateCourse from './pages/create-course'
 import EditCourse from './pages/edit-course'
 import CreateLesson from './pages/create-lesson'
 import EditLesson from './pages/edit-lesson'
+import EditProfile from './pages/edit-profile'
 
 function App () {
   const [user, setUser] = useState(null)
@@ -32,7 +33,9 @@ function App () {
 
         <Route path='/registrarme' element={<SignUp handleUser={handleUser} />} />
         <Route path='/iniciar-sesion' element={<SignIn handleUser={handleUser} />} />
-        <Route path='/profile' element={<Profile user={user} />} />
+        <Route path='/profile' element={<Profile handleUser={handleUser} />} />
+        <Route path='/editar-perfil/:id' element={<EditProfile />} />
+
         <Route path='/mis-cursos' element={<MyCourses />} />
         <Route path='/curso/:id' element={<DataCourse />} />
         <Route path='/crear-curso' element={<CreateCourse />} />

@@ -75,8 +75,8 @@ export function CreateLesson () {
           formData.append('description', 'sampleVideoAaron')
 
           await axios.post(`http://localhost:3000/upload/uploadVideo/${createLessonResponse.data.id}`, formData)
-          navigate(`/curso/${id}`)
         }
+        navigate(`/curso/${id}`)
       } catch (error) {
         console.error('Error creating lesson:', error)
       } finally {
@@ -132,9 +132,15 @@ export function CreateLesson () {
                     <div className='mb-4 flex flex-col gap-6'>
                       <Input size='lg' label='Título' value={title} onChange={e => setTitle(e.target.value)} error={errors.title} />
                       <Textarea label='Descripción' value={description} onChange={e => setDescription(e.target.value)} error={errors.description} />
-                      <input type='file' className='mt-2' onChange={e => setFile(e.target.files[0])} />
+                      <fieldset>
+                        <legend>Imagen de la Lección:</legend>
+                        <input type='file' className='mt-2' onChange={e => setFile(e.target.files[0])} />
+                      </fieldset>
                       {errors.file && <p className='text-red-500'>{errors.file}</p>}
-                      <input type='file' className='mt-2' onChange={e => setVideoFile(e.target.files[0])} />
+                      <fieldset>
+                        <legend>Vídeo de la Lección:</legend>
+                        <input type='file' className='mt-2' onChange={e => setVideoFile(e.target.files[0])} />
+                      </fieldset>
                     </div>
                     <Button className='mt-6' fullWidth type='submit' disabled={isLoading}>
                       {isLoading ? <BeatLoader size={10} color='#123abc' loading={isLoading} /> : 'Crear Lección'}

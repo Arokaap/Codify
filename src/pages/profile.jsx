@@ -1,3 +1,5 @@
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 import { Avatar, Typography, Button } from '@material-tailwind/react'
 import {
   MapPinIcon,
@@ -5,13 +7,50 @@ import {
   BuildingLibraryIcon
 } from '@heroicons/react/24/solid'
 import { Footer } from '@/widgets/layout'
+import { Link } from 'react-router-dom'
 
-export function Profile ({ user }) {
-  // const myImage = new CloudinaryImage('sample', { cloudName: 'dpew4mitl' }).resize(fill().width(100).height(150))
+export function Profile ({ handleUser }) {
+  const [user, setUser] = useState(null)
+  const userLogged = JSON.parse(window.localStorage.getItem('loggedUser'))
+  console.log(userLogged)
+  useEffect(() => {
+    axios.get(`http://localhost:3000/api/users/${userLogged.userId}`)
+      .then(response => setUser(response.data))
+      .catch(error => console.error(error))
+
+    handleUser(userLogged)
+  }, [])
+
+  const totalCourses = (user?.enrolledCourses.length || 0) + (user?.createdCourses.length || 0)
+
+  if (!user) {
+    return (
+      <>
+        <section className='relative block h-[50vh]'>
+          <div className="bg-profile-background absolute top-0 h-full w-full bg-[url('/img/background-1.jpg')] bg-cover bg-center" />
+          <div className='absolute top-0 h-full w-full bg-black/75 bg-cover bg-center' />
+        </section>
+        <section className='relative bg-blue-gray-50/50 py-16 px-4'>
+          <div className='container mx-auto'>
+            <div className='relative mb-6 -mt-64 flex w-full min-w-0 flex-col break-words rounded-3xl bg-white shadow-xl shadow-gray-500/5'>
+
+              <div className='container mx-auto'>
+                <div className='mt-32 flex justify-center items-center mb-32'>
+                  Registrate y intentalo de nuevo
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <div className='bg-blue-gray-50/50'>
+          <Footer />
+        </div>
+      </>
+    )
+  }
 
   return (
     <>
-
       <section className='relative block h-[50vh]'>
         <div className="bg-profile-background absolute top-0 h-full w-full bg-[url('/img/background-1.jpg')] bg-cover bg-center" />
         <div className='absolute top-0 h-full w-full bg-black/75 bg-cover bg-center' />
@@ -25,7 +64,7 @@ export function Profile ({ user }) {
                   <div className='relative'>
                     <div className='-mt-20 w-40'>
                       <Avatar
-                        src='/img/teacher-1.jpeg'
+                        src={`${user.avatar ? user.avatar : 'img/userDefault.png'}`}
                         alt='Profile picture'
                         variant='circular'
                         className='h-full w-full shadow-xl'
@@ -34,7 +73,12 @@ export function Profile ({ user }) {
                   </div>
                 </div>
                 <div className='mt-10 flex w-full justify-center px-4 lg:order-3 lg:mt-0 lg:w-4/12 lg:justify-end lg:self-center'>
-                  <Button className='bg-blue-400'>Mis Cursos</Button>
+                  <Link to={`/editar-perfil/${user ? user.id : ''}`} className='mr-7'>
+                    <Button className='bg-yellow-700'>Editar Perfil</Button>
+                  </Link>
+                  <Link to='/mis-cursos'>
+                    <Button className='bg-blue-400'>Mis Cursos</Button>
+                  </Link>
                 </div>
                 <div className='w-full px-4 lg:order-1 lg:w-4/12'>
                   <div className='flex justify-center py-4 pt-8 lg:pt-4'>
@@ -44,7 +88,7 @@ export function Profile ({ user }) {
                         color='blue-gray'
                         className='font-bold uppercase'
                       >
-                        22
+                        0
                       </Typography>
                       <Typography
                         variant='small'
@@ -59,7 +103,7 @@ export function Profile ({ user }) {
                         color='blue-gray'
                         className='font-bold uppercase'
                       >
-                        10
+                        {totalCourses}
                       </Typography>
                       <Typography
                         variant='small'
@@ -74,7 +118,7 @@ export function Profile ({ user }) {
                         color='blue-gray'
                         className='font-bold uppercase'
                       >
-                        89
+                        0
                       </Typography>
                       <Typography
                         variant='small'
@@ -93,20 +137,21 @@ export function Profile ({ user }) {
                 <div className='mb-16 flex items-center justify-center gap-2'>
                   <MapPinIcon className='-mt-px h-4 w-4 text-blue-gray-700' />
                   <Typography className='font-medium text-blue-gray-700'>
-                    {user ? (user.userLocation ?? 'Huelva, España') : 'Huelva, España'}
+                    {user.ubication ? user.ubication : 'Sin ubicación'}
                   </Typography>
                 </div>
                 <div className='mb-2 flex items-center justify-center gap-2'>
                   <BriefcaseIcon className='-mt-px h-4 w-4 text-blue-gray-700' />
                   <Typography className='font-medium text-blue-gray-700'>
-                    {user ? (user.userLocation ?? 'Desarrollador de Aplicaciones Web - Infonet') : 'Desarrollador de Aplicaciones Web - Infonet'}
+                    {user.jobPosition ? user.jobPosition : 'Sin puesto de trabajo'}
                   </Typography>
                 </div>
                 <div className='mb-2 flex items-center justify-center gap-2'>
                   <BuildingLibraryIcon className='-mt-px h-4 w-4 text-blue-gray-700' />
                   <Typography className='font-medium text-blue-gray-700'>
 
-                    {user ? (user.userLocation ?? 'IES San Sebastián') : 'IES San Sebastián'}
+                    {user.centerStudy ? user.centerStudy : 'Sin estudios'}
+
                   </Typography>
                 </div>
               </div>
@@ -115,9 +160,9 @@ export function Profile ({ user }) {
                 <div className='mt-2 flex flex-wrap justify-center'>
                   <div className='flex w-full flex-col items-center px-4 lg:w-9/12'>
                     <Typography className='mb-8 font-normal text-blue-gray-500'>
-                      {user ? (user.userLocation ?? 'Soy un apasionado desarrollador web especializado en la creación de aplicaciones y soluciones innovadoras utilizando tecnologías de vanguardia como React, JavaScript y Node. Me encanta sumergirme en estos lenguajes y frameworks para estar siempre al día con las últimas tendencias y prácticas en el ámbito del desarrollo web. Mi enfoque se centra en la eficiencia, la escalabilidad y la experiencia del usuario, y siempre estoy buscando nuevas oportunidades para aprender y crecer como profesional en este campo dinámico y en constante evolución.') : 'Soy un apasionado desarrollador web especializado en la creación de aplicaciones y soluciones innovadoras utilizando tecnologías de vanguardia como React, JavaScript y Node. Me encanta sumergirme en estos lenguajes y frameworks para estar siempre al día con las últimas tendencias y prácticas en el ámbito del desarrollo web. Mi enfoque se centra en la eficiencia, la escalabilidad y la experiencia del usuario, y siempre estoy buscando nuevas oportunidades para aprender y crecer como profesional en este campo dinámico y en constante evolución.'}
+                      {user.description ? user.description : 'Sin estudios'}
+
                     </Typography>
-                    <Button variant='text'>Seguir Leyendo...</Button>
                   </div>
                 </div>
               </div>

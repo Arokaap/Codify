@@ -86,6 +86,10 @@ export function EditCourse () {
 
         setCategories(result.data)
         setCourseData(course.data)
+
+        setTitle(course.data.title)
+        setDescription(course.data.description)
+        setCategory(course.data.categoryId)
       } catch (error) {
         console.error('Error fetching categories:', error)
       }
@@ -142,23 +146,26 @@ export function EditCourse () {
                   </Typography>
                   <form className='mt-8 mb-2 w-80 max-w-screen-lg sm:w-96' onSubmit={handleSubmit}>
                     <div className='mb-4 flex flex-col gap-6'>
-                      <Input size='lg' label='Título' value={title || courseData.title} onChange={e => setTitle(e.target.value)} error={errors.title} />
-                      <Textarea label='Descripción' value={description || courseData.description} onChange={e => setDescription(e.target.value)} error={errors.description} />
-                      <Select variant='outlined' label='Categoria' defaultValue={category || courseData.categoryId} onChange={(value) => setCategory(value)} error={errors.category}>
+                      <Input size='lg' label='Título' value={title} onChange={e => setTitle(e.target.value)} error={errors.title} />
+                      <Textarea label='Descripción' value={description} onChange={e => setDescription(e.target.value)} error={errors.description} />
+                      <Select variant='outlined' label='Categoria' defaultValue={category} onChange={(value) => setCategory(value)} error={errors.category}>
                         {categories.map(category => (
                           <Option selected={category.id === category} value={category.id} key={category.id}>
                             {category.title}
                           </Option>
                         ))}
                       </Select>
-
-                      <input type='file' className='mt-2' onChange={e => setFile(e.target.files[0])} />
+                      <fieldset>
+                        <legend>Imagen del Curso:</legend>
+                        <input type='file' className='mt-2' onChange={e => setFile(e.target.files[0])} />
+                      </fieldset>
                       {errors.file && <p className='text-red-500'>{errors.file}</p>}
                     </div>
                     <Button className='mt-6' fullWidth type='submit' disabled={isLoading}>
                       {isLoading ? <BeatLoader size={10} color='#123abc' loading={isLoading} /> : 'Editar Curso'}
                     </Button>
                   </form>
+
                 </Card>
 
               </div>
