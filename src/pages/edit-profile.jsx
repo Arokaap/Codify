@@ -62,7 +62,7 @@ export function EditProfile () {
           ubication: ubication.trim() ? ubication : userData.ubication
         }
 
-        const updateUserResponse = await axios.patch(`http://localhost:3000/api/users/${id}`, user, {
+        const updateUserResponse = await axios.patch(`https://codifyapi.herokuapp.com/api/users/${id}`, user, {
           headers: {
             Authorization: `Bearer ${userLogged.token}`
           }
@@ -72,7 +72,7 @@ export function EditProfile () {
 
         if (updateUserResponse.status === 200) {
           if (avatar) {
-            await axios.post(`http://localhost:3000/upload/uploadImageUser/${updateUserResponse.data.id}`, formData)
+            await axios.post(`https://codifyapi.herokuapp.com/upload/uploadImageUser/${updateUserResponse.data.id}`, formData)
           }
         }
         navigate('/profile')
@@ -87,7 +87,7 @@ export function EditProfile () {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const user = await axios.get(`http://localhost:3000/api/users/${id}`)
+        const user = await axios.get(`https://codifyapi.herokuapp.com/api/users/${id}`)
 
         setUserData(user.data)
         setUsername(user.data.userName)

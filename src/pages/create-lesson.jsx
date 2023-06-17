@@ -55,14 +55,14 @@ export function CreateLesson () {
           url: '',
           image: ''
         }
-        const createLessonResponse = await axios.post(`http://localhost:3000/api/lessons/${id}`, lesson, {
+        const createLessonResponse = await axios.post(`https://codifyapi.herokuapp.com/api/lessons/${id}`, lesson, {
           headers: {
             Authorization: `Bearer ${userLogged.token}`
           }
         })
 
         if (createLessonResponse.status === 200) {
-          const response = await axios.post(`http://localhost:3000/upload/uploadImageLesson/${createLessonResponse.data.id}`, formData)
+          const response = await axios.post(`https://codifyapi.herokuapp.com/upload/uploadImageLesson/${createLessonResponse.data.id}`, formData)
 
           if (response.status === 200) {
             console.log('Create Lesson')
@@ -74,7 +74,7 @@ export function CreateLesson () {
           formData.append('file', videoFile) // Aquí selectedFile es el archivo que el usuario seleccionó
           formData.append('description', 'sampleVideoAaron')
 
-          await axios.post(`http://localhost:3000/upload/uploadVideo/${createLessonResponse.data.id}`, formData)
+          await axios.post(`https://codifyapi.herokuapp.com/upload/uploadVideo/${createLessonResponse.data.id}`, formData)
         }
         navigate(`/curso/${id}`)
       } catch (error) {

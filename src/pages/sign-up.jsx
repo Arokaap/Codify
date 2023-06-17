@@ -85,7 +85,7 @@ export function SignUp ({ handleUser }) {
   return (
     <>
       <img
-        src='/img/gugen-background.png'
+        src='https://res.cloudinary.com/dpew4mitl/image/upload/v1687015314/gugen-background_teqdcd.png'
         className='absolute inset-0 z-0 h-full w-full object-cover'
       />
       <div className='absolute inset-0 z-0 h-full w-full bg-black/50' />

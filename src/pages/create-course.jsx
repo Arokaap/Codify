@@ -58,7 +58,7 @@ export function CreateCourse () {
           categoryId: category,
           creatorId: loggedInUserId
         }
-        const createCourseResponse = await axios.post('http://localhost:3000/api/courses', course, {
+        const createCourseResponse = await axios.post('https://codifyapi.herokuapp.com/api/courses', course, {
           headers: {
             Authorization: `Bearer ${userLogged.token}`
           }
@@ -66,7 +66,7 @@ export function CreateCourse () {
 
         console.log('createCourseResponse')
         if (createCourseResponse.status === 200) {
-          const response = await axios.post(`http://localhost:3000/upload/uploadImageCourse/${createCourseResponse.data.id}`, formData)
+          const response = await axios.post(`https://codifyapi.herokuapp.com/upload/uploadImageCourse/${createCourseResponse.data.id}`, formData)
 
           navigate(`/curso/${createCourseResponse.data.id}`)
 
@@ -85,7 +85,7 @@ export function CreateCourse () {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const result = await axios.get('http://localhost:3000/api/categories')
+        const result = await axios.get('https://codifyapi.herokuapp.com/api/categories')
         setCategories(result.data)
       } catch (error) {
         console.error('Error fetching categories:', error)
@@ -99,7 +99,7 @@ export function CreateCourse () {
     return (
       <>
         <section className='relative block h-[50vh]'>
-          <div className="bg-profile-background absolute top-0 h-full w-full bg-[url('/img/background-1.jpg')] bg-cover bg-center" />
+          <div className="bg-profile-background absolute top-0 h-full w-full bg-[url('https://res.cloudinary.com/dpew4mitl/image/upload/v1687014229/background-1_ecfeyg.jpg')] bg-cover bg-center" />
           <div className='absolute top-0 h-full w-full bg-black/75 bg-cover bg-center' />
         </section>
         <section className='relative bg-blue-gray-50/50 py-16 px-4'>
@@ -126,7 +126,7 @@ export function CreateCourse () {
   return (
     <>
       <section className='relative block h-[50vh]'>
-        <div className="bg-profile-background absolute top-0 h-full w-full bg-[url('/img/background-1.jpg')] bg-cover bg-center" />
+        <div className="bg-profile-background absolute top-0 h-full w-full bg-[url('https://res.cloudinary.com/dpew4mitl/image/upload/v1687014229/background-1_ecfeyg.jpg')] bg-cover bg-center" />
         <div className='absolute top-0 h-full w-full bg-black/75 bg-cover bg-center' />
       </section>
       <section className='relative bg-blue-gray-50/50 py-16 px-4'>

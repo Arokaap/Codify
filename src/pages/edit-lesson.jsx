@@ -74,7 +74,7 @@ export function EditLesson () {
           title: title.trim() ? title : lessonItem.title,
           description: description.trim() ? description : lessonItem.description
         }
-        const editLessonResponse = await axios.patch(`http://localhost:3000/api/lessons/${idCourse}/update/${idLesson}`, lesson, {
+        const editLessonResponse = await axios.patch(`https://codifyapi.herokuapp.com/api/lessons/${idCourse}/update/${idLesson}`, lesson, {
           headers: {
             Authorization: `Bearer ${userLogged.token}`
           }
@@ -82,7 +82,7 @@ export function EditLesson () {
 
         if (editLessonResponse.status === 200) {
           if (file) {
-            const response = await axios.post(`http://localhost:3000/upload/uploadImageLesson/${editLessonResponse.data.id}`, formData)
+            const response = await axios.post(`https://codifyapi.herokuapp.com/upload/uploadImageLesson/${editLessonResponse.data.id}`, formData)
 
             if (response.status === 200) {
               console.log('Edit Lesson')
@@ -95,7 +95,7 @@ export function EditLesson () {
           formData.append('file', videoFile)
           formData.append('description', 'sampleVideoAaron')
 
-          await axios.post(`http://localhost:3000/upload/uploadVideo/${editLessonResponse.data.id}`, formData)
+          await axios.post(`https://codifyapi.herokuapp.com/upload/uploadVideo/${editLessonResponse.data.id}`, formData)
         }
         navigate(`/curso/${idCourse}`)
       } catch (error) {

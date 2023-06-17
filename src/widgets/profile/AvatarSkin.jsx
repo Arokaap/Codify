@@ -61,7 +61,7 @@ const AvatarSkin = ({ handleUser, hidden, user }) => {
     const fetchUser = async () => {
       try {
         const userLogged = JSON.parse(window.localStorage.getItem('loggedUser'))
-        const response = await axios.get(`http://localhost:3000/api/users/${userLogged.userId}`)
+        const response = await axios.get(`https://codifyapi.herokuapp.com/api/users/${userLogged.userId}`)
         setUserData(response.data)
       } catch (error) {
         console.error('Error fetching user data:', error)

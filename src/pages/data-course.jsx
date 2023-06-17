@@ -15,7 +15,7 @@ import { Link, useParams } from 'react-router-dom'
 
 export function DataCourse () {
   // const myImage = new CloudinaryImage('sample', { cloudName: 'dpew4mitl' }).resize(fill().width(100).height(150))
-  const [data, setData] = useState([])
+  const [data, setData] = useState({ students: [] })
   const [lessons, setLessons] = useState([])
   const { id } = useParams()
 
@@ -32,13 +32,13 @@ export function DataCourse () {
   const handleClose = () => handleOpen(null)
 
   const fetchLesson = async (lessonId) => {
-    const result = await axios.get(`http://localhost:3000/api/lessons/${lessonId}`)
+    const result = await axios.get(`https://codifyapi.herokuapp.com/api/lessons/${lessonId}`)
     setLessons(oldLessons => [...oldLessons, result.data])
   }
 
   const handleDeleteLesson = async (lessonId) => {
     try {
-      await axios.delete(`http://localhost:3000/api/lessons/${id}/delete/${lessonId}`, {
+      await axios.delete(`https://codifyapi.herokuapp.com/api/lessons/${id}/delete/${lessonId}`, {
         headers: {
           Authorization: `Bearer ${userLogged.token}`
         }
@@ -54,7 +54,7 @@ export function DataCourse () {
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios.get(`http://localhost:3000/api/courses/${id}`)
+      const result = await axios.get(`https://codifyapi.herokuapp.com/api/courses/${id}`)
       setData(result.data)
       // Asegúrate de que lessons sea un array antes de llamar a forEach
       if (Array.isArray(result.data.lessons)) {
@@ -109,7 +109,7 @@ export function DataCourse () {
                     Students:
                   </Typography>
                   <div className='flex items-center -space-x-3 ml-10'>
-                    {data.students.map((student, index) => (
+                    {data.students?.length > 0 && data.students.map((student, index) => (
                       <Tooltip content={student.userName} key={index}>
                         <Avatar
                           size='sm'

@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = 'http://localhost:3000/api/users'
+const baseUrl = 'https://codifyapi.herokuapp.com/api/users'
 
 const getUser = async (id) => {
   const { data } = await axios.get(`${baseUrl}/${id}`)

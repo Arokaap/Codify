@@ -30,14 +30,14 @@ export function MyCourses () {
       const userLogged = JSON.parse(window.localStorage.getItem('loggedUser'))
       const token = userLogged.token
 
-      await axios.delete(`http://localhost:3000/api/courses/${itemId}`, {
+      await axios.delete(`https://codifyapi.herokuapp.com/api/courses/${itemId}`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`
         }
       })
 
-      const result = await axios.get('http://localhost:3000/api/courses')
+      const result = await axios.get('https://codifyapi.herokuapp.com/api/courses')
       setData(result.data)
     } catch (error) {
       console.error(error)
@@ -55,7 +55,7 @@ export function MyCourses () {
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios.get('http://localhost:3000/api/courses')
+      const result = await axios.get('https://codifyapi.herokuapp.com/api/courses')
       setData(result.data)
     }
 
@@ -77,7 +77,7 @@ export function MyCourses () {
   return (
     <>
       <section className='relative block h-[50vh]'>
-        <div className="bg-profile-background absolute top-0 h-full w-full bg-[url('/img/background-1.jpg')] bg-cover bg-center" />
+        <div className="bg-profile-background absolute top-0 h-full w-full bg-[url('https://res.cloudinary.com/dpew4mitl/image/upload/v1687014229/background-1_ecfeyg.jpg')] bg-cover bg-center" />
         <div className='absolute top-0 h-full w-full bg-black/75 bg-cover bg-center' />
       </section>
       <section className='relative bg-blue-gray-50/50 py-16 px-4'>

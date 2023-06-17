@@ -14,7 +14,7 @@ export function Profile ({ handleUser }) {
   const userLogged = JSON.parse(window.localStorage.getItem('loggedUser'))
   console.log(userLogged)
   useEffect(() => {
-    axios.get(`http://localhost:3000/api/users/${userLogged.userId}`)
+    axios.get(`https://codifyapi.herokuapp.com/api/users/${userLogged.userId}`)
       .then(response => setUser(response.data))
       .catch(error => console.error(error))
 

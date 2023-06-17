@@ -57,7 +57,7 @@ export function EditCourse () {
           categoryId: category || courseData.category,
           creatorId: loggedInUserId
         }
-        const updateCourseResponse = await axios.patch(`http://localhost:3000/api/courses/${id}`, course, {
+        const updateCourseResponse = await axios.patch(`https://codifyapi.herokuapp.com/api/courses/${id}`, course, {
           headers: {
             Authorization: `Bearer ${userLogged.token}`
           }
@@ -65,7 +65,7 @@ export function EditCourse () {
 
         if (updateCourseResponse.status === 200) {
           if (file) {
-            await axios.post(`http://localhost:3000/upload/uploadImageCourse/${updateCourseResponse.data.id}`, formData)
+            await axios.post(`https://codifyapi.herokuapp.com/upload/uploadImageCourse/${updateCourseResponse.data.id}`, formData)
           }
 
           navigate(`/curso/${id}`)
@@ -81,8 +81,8 @@ export function EditCourse () {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const result = await axios.get('http://localhost:3000/api/categories')
-        const course = await axios.get(`http://localhost:3000/api/courses/${id}`)
+        const result = await axios.get('https://codifyapi.herokuapp.com/api/categories')
+        const course = await axios.get(`https://codifyapi.herokuapp.com/api/courses/${id}`)
 
         setCategories(result.data)
         setCourseData(course.data)

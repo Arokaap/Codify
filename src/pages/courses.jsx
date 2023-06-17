@@ -17,19 +17,16 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
 export function Courses () {
-  // const myImage = new CloudinaryImage('sample', { cloudName: 'dpew4mitl' }).resize(fill().width(100).height(150))
-
   const [data, setData] = useState([])
   const [alertOpen, setAlertOpen] = useState(false)
   const [alertMessage, setAlertMessage] = useState('')
 
   const handleBuy = async (itemId) => {
     try {
-    // Usa el token del usuario almacenado en el localStorage
       const userLogged = JSON.parse(window.localStorage.getItem('loggedUser'))
       const token = userLogged.token
 
-      const response = await axios.put(`http://localhost:3000/api/users/${userLogged.userId}/enroll/${itemId}`, {}, {
+      const response = await axios.put(`https://codifyapi.herokuapp.com/api/users/${userLogged.userId}/enroll/${itemId}`, {}, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`
@@ -37,8 +34,7 @@ export function Courses () {
       })
       if (response.data.message) {
         setAlertMessage('¡Inscripción exitosa!')
-        // Recarga los datos del curso después de una inscripción exitosa
-        const result = await axios.get('http://localhost:3000/api/courses')
+        const result = await axios.get('https://codifyapi.herokuapp.com/api/courses')
         setData(result.data)
       } else {
         setAlertMessage('Ha ocurrido un error al inscribirte al curso.')
@@ -46,7 +42,6 @@ export function Courses () {
     } catch (error) {
       setAlertMessage('Ha ocurrido un error durante la inscripción.')
     }
-    // Muestra la alerta y la oculta después de 5 segundos
     setAlertOpen(true)
     setTimeout(() => {
       setAlertOpen(false)
@@ -55,7 +50,7 @@ export function Courses () {
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios.get('http://localhost:3000/api/courses')
+      const result = await axios.get('https://codifyapi.herokuapp.com/api/courses')
       setData(result.data)
     }
 
@@ -66,7 +61,7 @@ export function Courses () {
   return (
     <>
       <section className='relative block h-[50vh]'>
-        <div className="bg-profile-background absolute top-0 h-full w-full bg-[url('/img/background-1.jpg')] bg-cover bg-center" />
+        <div className="bg-profile-background absolute top-0 h-full w-full bg-[url('https://res.cloudinary.com/dpew4mitl/image/upload/v1687014229/background-1_ecfeyg.jpg')] bg-cover bg-center" />
         <div className='absolute top-0 h-full w-full bg-black/75 bg-cover bg-center' />
       </section>
       <section className='relative bg-blue-gray-50/50 py-16 px-4'>
