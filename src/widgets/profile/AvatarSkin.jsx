@@ -86,7 +86,7 @@ const AvatarSkin = ({ handleUser, hidden, user }) => {
                 className='flex items-center gap-1 rounded-full py-0.5 pr-0 pl-0.5 lg:ml-auto'
               >
                 <Avatar
-                  src={`${userData && userData.avatar ? userData.avatar : 'img/userDefault.png'}`}
+                  src={`${userData && (userData.avatar ? userData.avatar : 'img/userDefault.png')}`}
                   alt='Profile picture'
                   variant='circular'
                   className='h-full w-full shadow-xl'

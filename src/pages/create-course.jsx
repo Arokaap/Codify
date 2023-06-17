@@ -65,14 +65,12 @@ export function CreateCourse () {
         })
 
         console.log('createCourseResponse')
-        if (createCourseResponse.status === 200) {
-          const response = await axios.post(`https://codifyapi.herokuapp.com/upload/uploadImageCourse/${createCourseResponse.data.id}`, formData)
+        const response = await axios.post(`https://codifyapi.herokuapp.com/upload/uploadImageCourse/${createCourseResponse.data.id}`, formData)
 
-          navigate(`/curso/${createCourseResponse.data.id}`)
+        navigate(`/curso/${createCourseResponse.data.id}`)
 
-          if (response.status === 200) {
-            console.log('Create Course')
-          }
+        if (response.status === 200) {
+          console.log('Create Course')
         }
       } catch (error) {
         console.error('Error creating course:', error)
@@ -147,9 +145,9 @@ export function CreateCourse () {
                     <div className='mb-4 flex flex-col gap-6'>
                       <Input size='lg' label='Título' value={title} onChange={e => setTitle(e.target.value)} error={errors.title} />
                       <Textarea label='Descripción' value={description} onChange={e => setDescription(e.target.value)} error={errors.description} />
-                      <Select variant='outlined' label='Categoria' value={category} onChange={(value) => setCategory(value)} error={errors.category}>
+                      <Select variant='outlined' label='Categoria' defaultValue={category} onChange={(value) => setCategory(value)} error={errors.category}>
                         {categories.map(category => (
-                          <Option value={category.id} key={category.id}>
+                          <Option selected={category.id === category} value={category.id} key={category.id}>
                             {category.title}
                           </Option>
                         ))}

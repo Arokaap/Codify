@@ -14,11 +14,15 @@ export function Profile ({ handleUser }) {
   const userLogged = JSON.parse(window.localStorage.getItem('loggedUser'))
   console.log(userLogged)
   useEffect(() => {
-    axios.get(`https://codifyapi.herokuapp.com/api/users/${userLogged.userId}`)
-      .then(response => setUser(response.data))
-      .catch(error => console.error(error))
+    const fetchData = async () => {
+      const result = await axios.get(`https://codifyapi.herokuapp.com/api/users/${userLogged.userId}`)
+      setUser(result.data)
+      if (userLogged) {
+        handleUser(userLogged)
+      }
+    }
 
-    handleUser(userLogged)
+    fetchData()
   }, [])
 
   const totalCourses = (user?.enrolledCourses.length || 0) + (user?.createdCourses.length || 0)
@@ -52,7 +56,7 @@ export function Profile ({ handleUser }) {
   return (
     <>
       <section className='relative block h-[50vh]'>
-        <div className="bg-profile-background absolute top-0 h-full w-full bg-[url('/img/background-1.jpg')] bg-cover bg-center" />
+        <div className="bg-profile-background absolute top-0 h-full w-full bg-[url('https://res.cloudinary.com/dpew4mitl/image/upload/v1687014229/background-1_ecfeyg.jpg')] bg-cover bg-center" />
         <div className='absolute top-0 h-full w-full bg-black/75 bg-cover bg-center' />
       </section>
       <section className='relative bg-blue-gray-50/50 py-16 px-4'>
@@ -63,12 +67,14 @@ export function Profile ({ handleUser }) {
                 <div className='flex w-full justify-center px-4 lg:order-2 lg:w-3/12'>
                   <div className='relative'>
                     <div className='-mt-20 w-40'>
+
                       <Avatar
-                        src={`${user.avatar ? user.avatar : 'img/userDefault.png'}`}
-                        alt='Profile picture'
+                        src={user && user.avatar ? user.avatar : 'img/userDefault.png'}
+                        alt={user ? `Avatar de ${user.userName}` : 'Avatar de usuario predeterminado'}
                         variant='circular'
                         className='h-full w-full shadow-xl'
                       />
+
                     </div>
                   </div>
                 </div>
@@ -137,20 +143,20 @@ export function Profile ({ handleUser }) {
                 <div className='mb-16 flex items-center justify-center gap-2'>
                   <MapPinIcon className='-mt-px h-4 w-4 text-blue-gray-700' />
                   <Typography className='font-medium text-blue-gray-700'>
-                    {user.ubication ? user.ubication : 'Sin ubicación'}
+                    {user && user.ubication ? user.ubication : 'Sin ubicación'}
                   </Typography>
                 </div>
                 <div className='mb-2 flex items-center justify-center gap-2'>
                   <BriefcaseIcon className='-mt-px h-4 w-4 text-blue-gray-700' />
                   <Typography className='font-medium text-blue-gray-700'>
-                    {user.jobPosition ? user.jobPosition : 'Sin puesto de trabajo'}
+                    {user && user.jobPosition ? user.jobPosition : 'Sin puesto de trabajo'}
                   </Typography>
                 </div>
                 <div className='mb-2 flex items-center justify-center gap-2'>
                   <BuildingLibraryIcon className='-mt-px h-4 w-4 text-blue-gray-700' />
                   <Typography className='font-medium text-blue-gray-700'>
 
-                    {user.centerStudy ? user.centerStudy : 'Sin estudios'}
+                    {user && user.centerStudy ? user.centerStudy : 'Sin estudios'}
 
                   </Typography>
                 </div>
@@ -160,7 +166,7 @@ export function Profile ({ handleUser }) {
                 <div className='mt-2 flex flex-wrap justify-center'>
                   <div className='flex w-full flex-col items-center px-4 lg:w-9/12'>
                     <Typography className='mb-8 font-normal text-blue-gray-500'>
-                      {user.description ? user.description : 'Sin estudios'}
+                      {user && user.description ? user.description : 'Sin estudios'}
 
                     </Typography>
                   </div>
