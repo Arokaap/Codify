@@ -68,6 +68,7 @@ export function DataCourse () {
   const userLogged = JSON.parse(window.localStorage.getItem('loggedUser'))
   const loggedInUserId = userLogged ? userLogged.userId : null
 
+  console.log(data)
   return (
     <>
       <section className='relative block h-[50vh]'>
@@ -174,11 +175,11 @@ export function DataCourse () {
                       </div>
                     ))}
                   <div className='w-full flex justify-end mt-10'>
-                    {loggedInUserId === data.creator && (
+                    {data && (data.creator && (loggedInUserId === data.creator.id && (
                       <Link to={`/crear-leccion/${id}`} className='inline-block'>
                         <Button variant='gradient'>Añadir Lección</Button>
                       </Link>
-                    )}
+                    )))}
                   </div>
                 </div>
 
