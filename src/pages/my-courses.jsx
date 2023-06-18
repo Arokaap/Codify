@@ -77,7 +77,7 @@ export function MyCourses () {
   return (
     <>
       <section className='relative block h-[50vh]'>
-        <div className="bg-profile-background absolute top-0 h-full w-full bg-[url('img/background-1.jpg')] bg-cover bg-center" />
+        <div className="bg-profile-background absolute top-0 h-full w-full bg-[url('/img/background-1.jpg')] bg-cover bg-center" />
         <div className='absolute top-0 h-full w-full bg-black/75 bg-cover bg-center' />
       </section>
       <section className='relative bg-blue-gray-50/50 py-16 px-4'>
@@ -87,9 +87,7 @@ export function MyCourses () {
               <div className='my-15 text-center'>
                 <div className='w-full flex justify-end mt-10'>
                   {loggedInUserId && (
-                    <Link to='/crear-curso'>
-                      <Button variant='gradient'>Crear Curso</Button>
-                    </Link>
+                    <Button disabled variant='gradient'>Crear Curso</Button>
                   )}
                 </div>
                 <div className='my-8 text-center flex justify-center gap-7 flex-wrap'>
@@ -112,77 +110,79 @@ export function MyCourses () {
 
                           return isEnrolled || isCreator
                             ? (
-                              <Card className='w-full max-w-[22rem] h-[40rem] flex flex-col overflow-auto shadow-lg' key={item.id}>
-                                <Card className='w-full max-w-[22rem] h-[40rem] flex flex-col overflow-auto shadow-lg' key={item.id}>
-                                  <CardHeader floated={false} color='blue-gray'>
+                              <Card className='w-full max-w-[22rem] sm:h-[40rem] h-full flex flex-col overflow-auto shadow-lg' key={item.id}>
+                                <CardHeader floated={false} color='blue-gray'>
+                                  <div className='relative h-0 pb-[56.25%]'>
                                     <img
                                       src={item.image}
                                       alt={item.alt}
+                                      className='absolute top-0 left-0 h-full w-full object-cover md:object-scale-down'
                                     />
-                                    <div className='to-bg-black-10 absolute inset-0 h-full w-full bg-gradient-to-tr from-transparent via-transparent to-black/60 ' />
-                                    <IconButton
-                                      size='sm'
-                                      color='red'
-                                      variant='text'
-                                      className='!absolute top-4 right-4 rounded-full'
-                                    >
-                                      <HeartIcon className='h-6 w-6' />
-                                    </IconButton>
-                                  </CardHeader>
-                                  <CardBody className='flex-grow'>
-                                    <div className='mb-3 flex items-center justify-between'>
-                                      <Typography variant='h5' color='blue-gray' className='font-medium text-center'>
-                                        {item.title}
-                                      </Typography>
-                                      <Typography
-                                        color='blue-gray'
-                                        className='flex items-center gap-1.5 font-normal'
-                                      >
-                                        <StarIcon className='-mt-0.5 h-5 w-5 text-yellow-700' />
-                                        5
-                                      </Typography>
-                                    </div>
-                                    <Typography color='gray'>
-                                      {item.description}
+                                  </div>
+                                  <div className='to-bg-black-10 absolute inset-0 h-full w-full bg-gradient-to-tr from-transparent via-transparent to-black/60 ' />
+                                  <IconButton
+                                    size='sm'
+                                    color='red'
+                                    variant='text'
+                                    className='!absolute top-4 right-4 rounded-full'
+                                  >
+                                    <HeartIcon className='h-6 w-6' />
+                                  </IconButton>
+                                </CardHeader>
+
+                                <CardBody className='flex-grow'>
+                                  <div className='mb-3 flex items-center justify-between'>
+                                    <Typography variant='h5' color='blue-gray' className='font-medium text-center'>
+                                      {item.title}
                                     </Typography>
-                                  </CardBody>
-                                  <CardFooter className='pt-3 mt-auto'>
-                                    <Link to={`/curso/${item.id}`} className='inline-block'>
-                                      <Button
-                                        size='lg'
-                                        fullWidth
-                                        color={isCreator ? 'blue' : (isEnrolled ? 'blue' : 'red')}
-                                      >
-                                        {!isCreator ? (isEnrolled ? 'Entrar al curso' : 'ILEGAL') : 'Entrar al curso'}
-                                      </Button>
-                                    </Link>
-                                    {isCreator && (
-                                      <>
-                                        <div className={`${isCreator ? 'flex mt-5' : ''} gap-2`}>
-                                          <Link to={`/editar-curso/${item.id}`} className='inline-block'>
-                                            <Button
-                                              size='lg'
-                                              fullWidth
-                                              onClick={() => handleEdit(item.id)}
-                                              color='yellow'
-                                            >
-                                              Editar
-                                            </Button>
-                                          </Link>
+                                    <Typography
+                                      color='blue-gray'
+                                      className='flex items-center gap-1.5 font-normal'
+                                    >
+                                      <StarIcon className='-mt-0.5 h-5 w-5 text-yellow-700' />
+                                      5
+                                    </Typography>
+                                  </div>
+                                  <Typography color='gray'>
+                                    {item.description}
+                                  </Typography>
+                                </CardBody>
+                                <CardFooter className='pt-3 mt-auto'>
+                                  <Link to={`/curso/${item.id}`} className='inline-block'>
+                                    <Button
+                                      size='lg'
+                                      fullWidth
+                                      color={isCreator ? 'blue' : (isEnrolled ? 'blue' : 'red')}
+                                    >
+                                      {!isCreator ? (isEnrolled ? 'Entrar al curso' : 'ILEGAL') : 'Entrar al curso'}
+                                    </Button>
+                                  </Link>
+                                  {isCreator && (
+                                    <>
+                                      <div className={`${isCreator ? 'flex mt-5' : ''} gap-2`}>
+                                        <Link to={`/editar-curso/${item.id}`} className='inline-block'>
                                           <Button
                                             size='lg'
                                             fullWidth
-                                            onClick={() => handleDelete(item.id)}
-                                            color='red'
+                                            onClick={() => handleEdit(item.id)}
+                                            color='yellow'
                                           >
-                                            Borrar
+                                            Editar
                                           </Button>
-                                        </div>
-                                      </>
-                                    )}
-                                  </CardFooter>
+                                        </Link>
+                                        <Button
+                                          size='lg'
+                                          fullWidth
+                                          onClick={() => handleDelete(item.id)}
+                                          color='red'
+                                        >
+                                          Borrar
+                                        </Button>
+                                      </div>
+                                    </>
+                                  )}
+                                </CardFooter>
 
-                                </Card>
                               </Card>
                               )
                             : null

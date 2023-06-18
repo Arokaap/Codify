@@ -61,7 +61,7 @@ export function Courses () {
   return (
     <>
       <section className='relative block h-[50vh]'>
-        <div className="bg-profile-background absolute top-0 h-full w-full bg-[url('img/background-1.jpg')] bg-cover bg-center" />
+        <div className="bg-profile-background absolute top-0 h-full w-full bg-[url('/img/background-1.jpg')] bg-cover bg-center" />
         <div className='absolute top-0 h-full w-full bg-black/75 bg-cover bg-center' />
       </section>
       <section className='relative bg-blue-gray-50/50 py-16 px-4'>
@@ -87,7 +87,7 @@ export function Courses () {
                     const isCreator = item.creator.id === loggedInUserId
 
                     return (
-                      <Card className='w-full max-w-[22rem] h-[40rem] flex flex-col overflow-auto shadow-lg' key={item.id}>
+                      <Card className='w-full max-w-[22rem] sm:h-[40rem] h-full flex flex-col overflow-auto shadow-lg' key={item.id}>
                         <CardHeader floated={false} color='blue-gray'>
                           <img
                             src={item.image}
@@ -103,6 +103,7 @@ export function Courses () {
                             <HeartIcon className='h-6 w-6' />
                           </IconButton>
                         </CardHeader>
+
                         <CardBody className='flex-grow'>
                           <div className='mb-3 flex items-center justify-between'>
                             <Typography variant='h5' color='blue-gray' className='font-medium text-center'>
