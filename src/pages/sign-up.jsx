@@ -12,6 +12,7 @@ import {
 import { SimpleFooter } from '@/widgets/layout'
 import { useEffect, useState } from 'react'
 import registerService from '@/services/registerService'
+import { BeatLoader } from 'react-spinners'
 
 export function SignUp ({ handleUser }) {
   const [user, setUser] = useState(null)
@@ -22,6 +23,9 @@ export function SignUp ({ handleUser }) {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [errors, setErrors] = useState({})
+  const [isLoading, setIsLoading] = useState(false)
+  const [termsAccepted, setTermsAccepted] = useState(false)
+
   const navigate = useNavigate()
 
   const handleRegister = async (e) => {
@@ -32,24 +36,30 @@ export function SignUp ({ handleUser }) {
       newErrors.userName = 'El nombre de usuario es obligatorio'
     }
     if (!firstName) {
-      newErrors.firstName = 'El nombre de usuario es obligatorio'
+      newErrors.firstName = 'El primer nombre es obligatorio'
     }
     if (!lastName) {
-      newErrors.lastName = 'El nombre de usuario es obligatorio'
+      newErrors.lastName = 'El apellido es obligatorio'
     }
     if (!email) {
-      newErrors.email = 'El nombre de usuario es obligatorio'
+      newErrors.email = 'El correo electrónico es obligatorio'
     }
-    if (!password || (password !== confirmPassword)) {
+    if (!password) {
       newErrors.password = 'La contraseña es obligatoria'
     }
     if (!confirmPassword || (password !== confirmPassword)) {
-      newErrors.confirmPassword = 'La contraseña es obligatoria'
+      newErrors.confirmPassword = 'Las contraseñas deben coincidir'
     }
+    if (!termsAccepted) {
+      newErrors.terms = 'Debes aceptar los términos y condiciones'
+    }
+
     setErrors(newErrors)
 
     if (Object.keys(newErrors).length === 0) {
       try {
+        setIsLoading(true)
+
         const userRegister = await registerService.register({
           userName,
           firstName,
@@ -67,10 +77,19 @@ export function SignUp ({ handleUser }) {
         if (!user) {
           newErrors.userName = 'El nombre de usuario es obligatorio'
           newErrors.password = 'La contraseña es obligatoria'
+
           setErrors(newErrors)
         }
       } catch (err) {
-        console.log(err)
+        if (err.response.data.error.includes(userName)) {
+          setErrors(prevErrors => ({ ...prevErrors, userName: 'El nombre de usuario ya está en uso' }))
+        }
+
+        if (err.response.data.error.includes(email)) {
+          setErrors(prevErrors => ({ ...prevErrors, email: 'El email ya está en uso' }))
+        }
+      } finally {
+        setIsLoading(false)
       }
     }
   }
@@ -153,11 +172,15 @@ export function SignUp ({ handleUser }) {
               </div>
             </CardBody>
             <div className='ml-3'>
-              <Checkbox label='Aceptar términos y condiciones' />
+              <Checkbox
+                label='Aceptar términos y condiciones'
+                onChange={({ target }) => setTermsAccepted(target.checked)}
+              />
+              {errors.terms && <Typography color='red'>{errors.terms}</Typography>}
             </div>
             <CardFooter className='pt-0'>
               <Button type='submit' variant='gradient' fullWidth>
-                Registrarme
+                {isLoading ? <BeatLoader size={10} color='#123abc' loading={isLoading} /> : 'Registrarme'}
               </Button>
               <Typography variant='small' className='mt-6 flex justify-center'>
                 ¿Ya tienes cuenta?

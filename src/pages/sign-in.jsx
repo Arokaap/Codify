@@ -12,12 +12,15 @@ import {
 import { SimpleFooter } from '@/widgets/layout'
 import { useEffect, useState } from 'react'
 import loginService from '@/services/loginService'
+import { BeatLoader } from 'react-spinners'
 
 export function SignIn ({ handleUser }) {
   const [user, setUser] = useState(null)
   const [userName, setUserName] = useState('')
   const [password, setPassword] = useState('')
   const [errors, setErrors] = useState({})
+  const [isLoading, setIsLoading] = useState(false)
+
   const navigate = useNavigate()
 
   const handleLogin = async (e) => {
@@ -36,6 +39,8 @@ export function SignIn ({ handleUser }) {
 
     if (Object.keys(newErrors).length === 0) {
       try {
+        setIsLoading(true)
+
         const userLogin = await loginService.login({
           userName,
           password
@@ -53,7 +58,11 @@ export function SignIn ({ handleUser }) {
           setErrors(newErrors)
         }
       } catch (err) {
-        console.log(err)
+        if (err.response.data.error.includes('user')) {
+          setErrors(prevErrors => ({ ...prevErrors, userName: 'El nombre de usuario es incorrecto', password: 'El password es incorrecto' }))
+        }
+      } finally {
+        setIsLoading(false)
       }
     }
   }
@@ -108,7 +117,7 @@ export function SignIn ({ handleUser }) {
             </CardBody>
             <CardFooter className='pt-0'>
               <Button type='submit' variant='gradient' fullWidth>
-                Iniciar Sesión
+                {isLoading ? <BeatLoader size={10} color='#123abc' loading={isLoading} /> : 'Iniciar Sesión'}
               </Button>
               <Typography variant='small' className='mt-6 flex justify-center'>
                 ¿No tienes cuenta?
