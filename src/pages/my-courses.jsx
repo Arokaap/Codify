@@ -77,7 +77,7 @@ export function MyCourses () {
   return (
     <>
       <section className='relative block h-[50vh]'>
-        <div className="bg-profile-background absolute top-0 h-full w-full bg-[url('https://res.cloudinary.com/dpew4mitl/image/upload/v1687014229/background-1_ecfeyg.jpg')] bg-cover bg-center" />
+        <div className="bg-profile-background absolute top-0 h-full w-full bg-[url('img/background-1.jpg')] bg-cover bg-center" />
         <div className='absolute top-0 h-full w-full bg-black/75 bg-cover bg-center' />
       </section>
       <section className='relative bg-blue-gray-50/50 py-16 px-4'>
@@ -87,7 +87,9 @@ export function MyCourses () {
               <div className='my-15 text-center'>
                 <div className='w-full flex justify-end mt-10'>
                   {loggedInUserId && (
-                    <Button disabled variant='gradient'>Crear Curso</Button>
+                    <Link to='/crear-curso'>
+                      <Button variant='gradient'>Crear Curso</Button>
+                    </Link>
                   )}
                 </div>
                 <div className='my-8 text-center flex justify-center gap-7 flex-wrap'>

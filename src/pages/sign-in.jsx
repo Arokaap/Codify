@@ -68,7 +68,7 @@ export function SignIn ({ handleUser }) {
   return (
     <>
       <img
-        src='https://res.cloudinary.com/dpew4mitl/image/upload/v1687015175/background-2_gwgzzt.jpg'
+        src='img/background-2.jpg'
         className='absolute inset-0 z-0 h-full w-full object-cover'
       />
       <div className='absolute inset-0 z-0 h-full w-full bg-black/50' />

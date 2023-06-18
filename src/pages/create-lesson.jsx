@@ -62,7 +62,7 @@ export function CreateLesson () {
         })
 
         if (createLessonResponse.status === 200) {
-          const response = await axios.post(`https://codifyapi.herokuapp.com/upload/uploadImageLesson/${createLessonResponse.data.id}`, formData)
+          const response = await axios.post(`http://localhost:3000/upload/uploadImageLesson/${createLessonResponse.data.id}`, formData)
 
           if (response.status === 200) {
             console.log('Create Lesson')
@@ -75,7 +75,7 @@ export function CreateLesson () {
           formData.append('file', videoFile) // Aquí selectedFile es el archivo que el usuario seleccionó
           formData.append('description', 'sampleVideoAaron')
 
-          await axios.post(`https://codifyapi.herokuapp.com/upload/uploadVideo/${createLessonResponse.data.id}`, formData)
+          await axios.post(`http://localhost:3000/upload/uploadVideo/${createLessonResponse.data.id}`, formData)
         }
         navigate(`/curso/${id}`)
       } catch (error) {
@@ -90,7 +90,7 @@ export function CreateLesson () {
     return (
       <>
         <section className='relative block h-[50vh]'>
-          <div className="bg-profile-background absolute top-0 h-full w-full bg-[url('https://res.cloudinary.com/dpew4mitl/image/upload/v1687014229/background-1_ecfeyg.jpg')] bg-cover bg-center" />
+          <div className="bg-profile-background absolute top-0 h-full w-full bg-[url('img/background-1.jpg')] bg-cover bg-center" />
           <div className='absolute top-0 h-full w-full bg-black/75 bg-cover bg-center' />
         </section>
         <section className='relative bg-blue-gray-50/50 py-16 px-4'>
@@ -114,7 +114,7 @@ export function CreateLesson () {
   return (
     <>
       <section className='relative block h-[50vh]'>
-        <div className="bg-profile-background absolute top-0 h-full w-full bg-[url('https://res.cloudinary.com/dpew4mitl/image/upload/v1687014229/background-1_ecfeyg.jpg')] bg-cover bg-center" />
+        <div className="bg-profile-background absolute top-0 h-full w-full bg-[url('img/background-1.jpg')] bg-cover bg-center" />
         <div className='absolute top-0 h-full w-full bg-black/75 bg-cover bg-center' />
       </section>
       <section className='relative bg-blue-gray-50/50 py-16 px-4'>

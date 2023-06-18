@@ -62,7 +62,7 @@ export function DataCourse () {
   return (
     <>
       <section className='relative block h-[50vh]'>
-        <div className="bg-profile-background absolute top-0 h-full w-full bg-[url('https://res.cloudinary.com/dpew4mitl/image/upload/v1687014229/background-1_ecfeyg.jpg')] bg-cover bg-center" />
+        <div className="bg-profile-background absolute top-0 h-full w-full bg-[url('img/background-1.jpg')] bg-cover bg-center" />
         <div className='absolute top-0 h-full w-full bg-black/75 bg-cover bg-center' />
       </section>
       <section className='relative bg-blue-gray-50/50 py-16 px-4'>
@@ -105,7 +105,7 @@ export function DataCourse () {
                           size='sm'
                           variant='circular'
                           alt={student.userName}
-                          src={student.avatar}
+                          src={student.avatar ? student.avatar : '/img/userDefault.png'}
                           className='border-2 border-white hover:z-10'
                         />
                       </Tooltip>
@@ -135,12 +135,12 @@ export function DataCourse () {
                             <img
                               src={`${lesson.image}`}
                               alt='image'
-                              className='w-full h-full object-cover'
+                              className='w-auto h-full object-cover'
                             />
                           </CardHeader>
                           <CardBody>
                             {lesson.title && (
-                              <Typography variant='h4' color='blue-gray' className='mb-2'>
+                              <Typography variant='h6' color='blue-gray' className='mb-2'>
                                 {lesson.title}
                               </Typography>
                             )}
