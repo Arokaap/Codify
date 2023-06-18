@@ -15,14 +15,21 @@ import {
 import { Footer } from '@/widgets/layout'
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
+import { BeatLoader } from 'react-spinners'
 
 export function Courses () {
   const [data, setData] = useState([])
   const [alertOpen, setAlertOpen] = useState(false)
   const [alertMessage, setAlertMessage] = useState('')
+  const [isLoading, setIsLoading] = useState({})
+
+  const navigate = useNavigate()
 
   const handleBuy = async (itemId) => {
     try {
+      setIsLoading(prevState => ({ ...prevState, [itemId]: true }))
+
       const userLogged = JSON.parse(window.localStorage.getItem('loggedUser'))
       const token = userLogged.token
 
@@ -41,6 +48,8 @@ export function Courses () {
       }
     } catch (error) {
       setAlertMessage('Ha ocurrido un error durante la inscripción.')
+    } finally {
+      setIsLoading(prevState => ({ ...prevState, [itemId]: false }))
     }
     setAlertOpen(true)
     setTimeout(() => {
@@ -125,12 +134,19 @@ export function Courses () {
                           <Button
                             size='lg'
                             fullWidth
-                            onClick={() => handleBuy(item.id)}
-                            disabled={isCreator || isEnrolled || !loggedInUserId}
+                            onClick={() => {
+                              if (isEnrolled || isCreator) {
+                                navigate(`/curso/${item.id}`)
+                              } else {
+                                handleBuy(item.id)
+                              }
+                            }}
+                            disabled={!loggedInUserId}
                             color={isEnrolled ? 'green' : 'blue'}
                           >
-                            {!isCreator ? (isEnrolled ? 'Inscrito' : 'Comprar') : 'En Propiedad'}
+                            {isLoading[item.id] ? <BeatLoader size={10} color='#123abc' loading={isLoading[item.id]} /> : !isCreator ? (isEnrolled ? 'Ir al curso' : 'Comprar') : 'En Propiedad'}
                           </Button>
+
                         </CardFooter>
                       </Card>
                     )
