@@ -123,7 +123,7 @@ export function DataCourse () {
 
                   <Typography variant='lead' color='gray' className='mt-3 font-bold'>
                     <br />
-                    Students:
+                    Estudiantes:
                   </Typography>
                   <div className='flex items-center -space-x-3 ml-10'>
                     {data.students?.length > 0 && data.students.map((student, index) => (
