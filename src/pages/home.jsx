@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Card,
   CardBody,
@@ -7,7 +7,8 @@ import {
   Button,
   IconButton,
   Input,
-  Textarea
+  Textarea,
+  Alert
 } from '@material-tailwind/react'
 import { UsersIcon } from '@heroicons/react/24/solid'
 import { PageTitle, Footer } from '@/widgets/layout'
@@ -16,6 +17,49 @@ import { featuresData, teamData } from '@/data'
 import { Link } from 'react-router-dom'
 
 export function Home () {
+  const [form, setForm] = useState({
+    fullName: '',
+    email: '',
+    message: ''
+  })
+  const [isSubmitted, setIsSubmitted] = useState(false)
+  const [formStatus, setFormStatus] = useState(null)
+
+  useEffect(() => {
+    if (isSubmitted) {
+      setForm({
+        fullName: '',
+        email: '',
+        message: ''
+      })
+    }
+  }, [isSubmitted])
+
+  function handleInputChange (e) {
+    const { name, value } = e.target
+    setForm(prevForm => ({
+      ...prevForm,
+      [name]: value
+    }))
+  }
+
+  function handleFormSubmit (e) {
+    e.preventDefault()
+
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i
+
+    if (!emailRegex.test(form.email)) {
+      setFormStatus('error')
+      setTimeout(() => setFormStatus(null), 7000)
+      return
+    }
+
+    setIsSubmitted(true)
+    setFormStatus('success')
+
+    setTimeout(() => setFormStatus(null), 7000)
+  }
+
   return (
     <>
       <div className='relative flex h-screen content-center items-center justify-center pt-16 pb-32'>
@@ -134,16 +178,45 @@ export function Home () {
           <PageTitle heading='¿Tienes alguna duda?'>
             ¡Rellena el formulario y te responderemos en breve!
           </PageTitle>
-          <form className='mx-auto mt-12 max-w-3xl text-center'>
+          <form className='mx-auto mt-12 max-w-3xl text-center' onSubmit={handleFormSubmit}>
             <div className='mb-8 flex gap-8'>
-              <Input variant='standard' size='lg' label='Nombre Completo' />
-              <Input variant='standard' size='lg' label='Correo Electrónico' />
+              <Input
+                variant='standard'
+                size='lg'
+                label='Nombre Completo'
+                name='fullName'
+                value={form.fullName}
+                onChange={handleInputChange}
+              />
+              <Input
+                variant='standard'
+                size='lg'
+                label='Correo Electrónico'
+                name='email'
+                value={form.email}
+                onChange={handleInputChange}
+              />
             </div>
-            <Textarea variant='standard' size='lg' label='Mensaje' rows={8} />
-            <Button variant='gradient' size='lg' className='mt-8'>
+            <Textarea
+              variant='standard'
+              size='lg'
+              label='Mensaje'
+              rows={8}
+              name='message'
+              value={form.message}
+              onChange={handleInputChange}
+            />
+            <Button variant='gradient' size='lg' className='mt-8' type='submit'>
               Contactar
             </Button>
+            {formStatus === 'success' && (
+              <Alert color='green' className='text-center mt-10'>Tu mensaje se ha enviado correctamente!</Alert>
+            )}
+            {formStatus === 'error' && (
+              <Alert color='red' className='text-center mt-10'>Hubo un problema al enviar tu mensaje. Por favor, inténtalo con un email correcto.</Alert>
+            )}
           </form>
+
         </div>
       </section>
       <div className='bg-blue-gray-50/50'>
